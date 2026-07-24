@@ -1,184 +1,442 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="htmlUtama">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Koleksi Shader Najib Nyawit</title>
+    <title>Shader Downloads - Najib Nyawit</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-
+        :root {
+            --utama: #ffb703;
+            --latar-atas: #1c2541;
+            --latar-utama: #0b132b;
+            --latar-kartu: #3a506b;
+            --latar-header: #2c3e50;
+            --latar-tombol: #1c2541;
+            --teks: #ffffff;
+            --teks-abu: #9fb3c8;
+            --batas: #5bc0be;
+            --bsl-hijau: #4CAF50;
+            --deriv-biru: #2196F3;
+            --dukung-merah: #e74c3c;
+        }
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: var(--latar-utama);
+            color: var(--teks);
             min-height: 100vh;
-            color: #e0e0e0;
-            padding: 20px 15px;
+            padding: 0;
+            position: relative;
         }
 
-        .judul {
-            text-align: center;
-            margin-bottom: 30px;
+        /* ✨ LAPISAN PUDAR ATAS */
+        .pudar-atas {
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 24px;
+            background: linear-gradient(to bottom, var(--latar-utama), transparent);
+            z-index: 10;
+            pointer-events: none;
         }
-        .judul h1 {
-            font-size: 28px;
-            color: #ffd700;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-            margin-bottom: 8px;
-        }
-        .judul p { font-size: 15px; color: #b0c4de; }
 
-        .profil {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
+        /* ✨ LAPISAN PUDAR BAWAH */
+        .pudar-bawah {
+            position: fixed;
+            bottom: 70px;
+            left: 0;
+            right: 0;
+            height: 24px;
+            background: linear-gradient(to top, var(--latar-utama), transparent);
+            z-index: 10;
+            pointer-events: none;
         }
-        .foto-profil {
-            width: 70px;
-            height: 70px;
+
+        /* ✨ HEADER DENGAN TOMBOL PLANET */
+        .header {
+            background: var(--latar-header);
+            padding: 18px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--utama);
+            position: sticky;
+            top: 0;
+            z-index: 11;
+        }
+        .header-judul {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--utama);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .tombol-bahasa {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 12px;
             border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #ffd700;
+            font-size: 20px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: 0.2s;
         }
-        .nama-profil h3 { font-size: 20px; color: #ffd700; margin-bottom: 5px; }
-        .nama-profil p { font-size: 14px; color: #b0c4de; }
+        .tombol-bahasa:hover {
+            background: var(--utama);
+            transform: scale(1.1);
+        }
 
-        .tombol-utama {
-            display: block; text-align: center; padding: 14px;
-            border-radius: 12px; text-decoration: none; font-weight: bold;
-            margin-bottom: 12px; transition: 0.3s;
+        /* PILIHAN BAHASA */
+        .menu-bahasa {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: var(--latar-kartu);
+            border-radius: 12px;
+            min-width: 150px;
+            overflow: hidden;
+            border: 1px solid var(--batas);
+            display: none;
+            z-index: 999;
         }
-        .tombol-tiktok {
+        .menu-bahasa.tampil { display: block; }
+        .opsi-bahasa {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+        .opsi-bahasa.aktif { background: var(--utama); color: var(--latar-utama); font-weight: 600; }
+        .opsi-bahasa:hover:not(.aktif) { background: rgba(255,255,255,0.1); }
+
+        /* ISI KONTEN */
+        .isi {
+            padding: 20px 0 90px;
+        }
+
+        /* PROFIL */
+        .profil {
+            background: var(--latar-kartu);
+            margin: 0 20px 15px;
+            padding: 20px;
+            border-radius: 16px;
+            display: flex; align-items: center; gap: 15px;
+            border: 2px solid var(--utama);
+        }
+        .lingkaran-n {
+            width: 55px; height: 55px;
+            border-radius: 50%;
+            background: var(--utama);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; font-weight: 900; color: var(--latar-utama);
+        }
+        .profil-teks h3 { font-size: 20px; color: var(--utama); margin-bottom: 3px; }
+        .profil-teks p { font-size: 14px; color: var(--teks); }
+
+        /* DISCLAIMER BUKA TUTUP */
+        .disclaimer {
+            background: var(--latar-kartu);
+            margin: 0 20px 15px;
+            border-radius: 12px;
+            border-left: 4px solid var(--utama);
+            overflow: hidden;
+        }
+        .disclaimer-judul {
+            padding: 16px 18px;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: 600;
+        }
+        .panah-disclaimer { transition: transform 0.3s ease; color: var(--utama); }
+        .panah-disclaimer.buka { transform: rotate(180deg); }
+        .disclaimer-isi {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            padding: 0 18px;
+            font-size: 14px;
+            color: var(--teks-abu);
+            line-height: 1.6;
+        }
+        .disclaimer-isi.buka { max-height: 200px; padding: 0 18px 16px; }
+
+        /* BAGIAN DUKUNG SAYA */
+        .dukung {
+            background: var(--latar-kartu);
+            margin: 0 20px 15px;
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid var(--dukung-merah);
+        }
+        .dukung h3 { font-size: 17px; color: var(--utama); margin-bottom: 8px; }
+        .dukung p { font-size: 14px; color: var(--teks-abu); margin-bottom: 12px; }
+        .link-dukung {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--dukung-merah);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .link-dukung:hover { transform: scale(1.05); background: #c0392b; }
+
+        /* FOLLOW ME */
+        .follow {
+            background: var(--latar-kartu);
+            margin: 0 20px 20px;
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid var(--batas);
+        }
+        .follow h3 { font-size: 17px; color: var(--utama); margin-bottom: 8px; }
+        .follow p { font-size: 14px; color: var(--teks-abu); margin-bottom: 12px; }
+        .link-tiktok {
+            display: inline-flex; align-items: center; gap: 8px;
             background: linear-gradient(90deg, #25F4EE, #FE2C55);
-            color: white; box-shadow: 0 4px 15px rgba(37, 244, 238, 0.3);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
         }
-        .tombol-tiktok:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 244, 238, 0.5); }
+        .link-tiktok:hover { transform: scale(1.05); }
 
-        .tombol-sociabuzz {
-            background: linear-gradient(90deg, #ff6b6b, #ffa726);
-            color: white; box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        /* PENCARIAN */
+        .cari {
+            margin: 10px 20px;
+            padding: 14px 18px;
+            background: var(--latar-kartu);
+            border: none;
+            border-radius: 25px;
+            color: var(--teks);
+            font-size: 15px;
+            width: calc(100% - 40px);
+            border: 2px solid var(--batas);
+            outline: none;
         }
-        .tombol-sociabuzz:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5); }
+        .cari::placeholder { color: var(--teks-abu); }
 
-        .kategori {
-            font-size: 20px; color: #ffd700; margin: 30px 0 15px 0;
-            padding-left: 10px; border-left: 4px solid #ffd700;
+        /* NAVIGASI HALAMAN */
+        .nav-halaman {
+            display: flex; justify-content: center; align-items: center; gap: 12px;
+            margin: 20px 0;
+        }
+        .tombol-halaman {
+            background: var(--latar-tombol);
+            border: 1px solid var(--batas);
+            color: var(--teks);
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .tombol-halaman.aktif {
+            background: var(--utama);
+            color: var(--latar-utama);
+            font-weight: 700;
+            border-color: var(--utama);
+        }
+        .tombol-halaman:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        /* DAFTAR UTAMA DENGAN EFEK PUDAR LEBIH LAMBAT */
+        .daftar { padding: 0 20px; }
+        .item {
+            background: var(--latar-kartu);
+            margin-bottom: 12px;
+            padding: 18px;
+            border-radius: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer;
+            border: 1px solid transparent;
+            /* ✨ DIUBAH: PUDAR JADI LEBIH LAMA & LEMBUT */
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        .item.sembunyi {
+            opacity: 0;
+            transform: translateY(15px);
+            pointer-events: none;
+            position: absolute;
+            visibility: hidden;
+        }
+        .item:hover { background: #2b4260; border-color: var(--utama); }
+        .item-kiri { display: flex; align-items: center; gap: 14px; }
+
+        /* LOGO */
+        .logo-bsl {
+            width: 42px; height: 42px;
+            border-radius: 10px;
+            background: var(--bsl-hijau);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; font-weight: 900; color: white;
+        }
+        .logo-deriv {
+            width: 42px; height: 42px;
+            border-radius: 10px;
+            background: var(--deriv-biru);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; font-weight: 900; color: white;
         }
 
-        .kartu {
-            background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(8px);
-            border-radius: 12px; padding: 16px; margin-bottom: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.3s;
-        }
-        .kartu:hover {
-            background: rgba(255, 255, 255, 0.1); transform: translateX(5px);
-            border-color: #ffd700;
-        }
-        .kartu h4 { font-size: 17px; color: #ffd700; margin-bottom: 5px; }
-        .kartu p { font-size: 13px; color: #b0c4de; margin-bottom: 10px; }
-        .tombol-unduh {
-            display: inline-block; padding: 8px 16px;
-            background: #2e8b57; color: white; border-radius: 8px;
-            text-decoration: none; font-size: 14px; transition: 0.3s;
-        }
-        .tombol-unduh:hover { background: #3cb371; }
+        .item-nama { font-size: 18px; font-weight: 600; margin-bottom: 5px; }
+        .item-dev { font-size: 13px; color: var(--teks-abu); margin-bottom: 3px; }
+        .item-edit { font-size: 13px; color: var(--utama); font-weight: 500; }
+        .panah { font-size: 22px; color: var(--utama); }
 
-        .catatan {
-            background: rgba(255, 215, 0, 0.1); border-left: 4px solid #ffd700;
-            padding: 15px; border-radius: 8px; margin-top: 30px;
-            font-size: 13px; color: #ffd700;
+        /* INFO */
+        .info-halaman {
+            text-align: center;
+            font-size: 13px;
+            color: var(--teks-abu);
+            margin-bottom: 20px;
+        }
+
+        /* MENU BAWAH */
+        .menu-bawah {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--latar-atas);
+            display: flex; justify-content: center;
+            padding: 12px 0;
+            border-top: 2px solid var(--batas);
+            border-radius: 16px 16px 0 0;
+            z-index: 11;
+        }
+        .menu-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 40px;
+            border-radius: 12px;
+            font-size: 15px;
+            color: var(--latar-utama);
+            background: var(--utama);
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
-    <div class="judul">
-        <h1>📦 SHADER COLLECTION</h1>
-        <p>All shaders edited by Najib Nyawit</p>
-    </div>
-
-    <div class="profil">
-        <img src="https://i.imgur.com/9XzLqYk.png" class="foto-profil" alt="Najib Nyawit">
-        <div class="nama-profil">
-            <h3>Najib Nyawit ✨</h3>
-            <p>Follow My TikTok</p>
+    <!-- ✨ HEADER -->
+    <div class="header">
+        <div class="header-judul" data-id="judulHalaman">✨ Shader Downloads</div>
+        <div class="tombol-bahasa" onclick="bukaTutupBahasa()">🌍</div>
+        <div class="menu-bahasa" id="menuBahasa">
+            <div class="opsi-bahasa" onclick="gantiBahasa('id')">🇮🇩 Bahasa Indonesia</div>
+            <div class="opsi-bahasa aktif" onclick="gantiBahasa('en')">🇬🇧 English</div>
         </div>
     </div>
 
-    <a href="MASUKKAN_LINK_TIKTOK_KAMU_DISINI" class="tombol-utama tombol-tiktok">🎥 Ikuti TikTok Saya</a>
-    <a href="https://sociabuzz.com/mnajibalhaddad" class="tombol-utama tombol-sociabuzz">💛 Bantu Support Ya :)</a>
+    <!-- ✨ PUDAR ATAS -->
+    <div class="pudar-atas"></div>
 
-    <h2 class="kategori">🎨 BSL SERIES</h2>
-    <div class="kartu">
-        <h4>BSL_Najawit V1</h4>
-        <p>Original: BSL Shaders | Edited by Najib Nyawit</p>
-        <a href="https://www.mediafire.com/file/bs9ugax86alwqnk/BSL_Najawit_V1.zip/file" class="tombol-unduh">⬇ Unduh</a>
-    </div>
-    <div class="kartu">
-        <h4>BSL_Najawit V2</h4>
-        <p>Original: BSL Shaders | Edited by Najib Nyawit</p>
-        <a href="https://www.mediafire.com/file/imfb9oipqf1xzfy/BSL_Najawit_V2.zip/file" class="tombol-unduh">⬇ Unduh</a>
-    </div>
-    <div class="kartu">
-        <h4>BSL_Najawit V3.0</h4>
-        <p>Original: BSL Shaders | Edited by Najib Nyawit</p>
-        <a href="https://www.mediafire.com/file/jzg6vobhd7b49we/BSL_Najawit_V3.0.zip/file" class="tombol-unduh">⬇ Unduh</a>
-    </div>
-    <div class="kartu">
-        <h4>BSL_Najawit V3.1</h4>
-        <p>Original: BSL Shaders | Edited by Najib Nyawit</p>
-        <a href="https://www.mediafire.com/file/jseqz6ad34m0eei/BSL_Najawit_V3.1.zip/file" class="tombol-unduh">⬇ Unduh</a>
-    </div>
-    <div class="kartu">
-        <h4>BSL_Najawit V3.2</h4>
-        <p>Original: BSL Shaders | Edited by Najib Nyawit</p>
-        <a href="https://www.mediafire.com/file/7y86r9f81n91one/BSL_Najawit_V3.2.zip/file" class="tombol-unduh">⬇ Unduh</a>
-    </div>
-    <div class="kartu">
-        <h4>BSL_Najawit V4 (Last Update)</h4>
-        <p>Original: BSL Shaders | Edited by Najib Nyawit</p>
-        <a href="https://www.mediafire.com/file/nmzop5p9jqzel2v/BSL_Najawit_V4_Last_Update.zip/file" class="tombol-unduh">⬇ Unduh</a>
+    <div class="isi">
+    <!-- PROFIL -->
+    <div class="profil">
+        <div class="lingkaran-n">N</div>
+        <div class="profil-teks">
+            <h3>Najib Nyawit ✨</h3>
+            <p data-id="keteranganProfil">All shaders edited by me</p>
+        </div>
     </div>
 
-    <h2 class="kategori">🌌 DERIVATIVE SERIES</h2>
-    <div class="kartu">
-        <h4>Derivative_Najawit V1</h4>
-        <p>Original: Derivative Shaders | Edited by Najib Nyawit</p>
-        <a href="https://www.mediafire.com/file/a63lvpqgol2b9cf/Derivative_Najawit_V1.zip/file" class="tombol-unduh">⬇ Unduh</a>
-    </div>
-    <div class="kartu">
-        <h4>Derivative_Najawit V2</h4>
-        <p>Original: Derivative Shaders | Edited by Najib Nyawit</p>
-        <a href="https://www.mediafire.com/file/mdmh710efjf8qyt/Derivative_Najawit_V2.zip/file" class="tombol-unduh">⬇ Unduh</a>
-    </div>
-    <div class="kartu">
-        <h4>Derivative_Najawit V3.0</h4>
-        <p>Original: Derivative Shaders | Edited by Najib Nyawit</p>
-        <a href="https://www.mediafire.com/file/ik9dqwrxewy7qjd/Derivative_Najawit_V3.0.zip/file" class="tombol-unduh">⬇ Unduh</a>
-    </div>
-    <div class="kartu">
-        <h4>Derivative_Najawit V3.1</h4>
-        <p>Original: Derivative Shaders | Edited by Najib Nyawit</p>
-        <a href="https://www.mediafire.com/file/mjj3x03pmhcuze7/Derivative_Najawit_V3.1.zip/file" class="tombol-unduh">⬇ Unduh</a>
-    </div>
-    <div class="kartu">
-        <h4>Derivative_Najawit V3.2</h4>
-        <p>Original: Derivative Shaders | Edited by Najib Nyawit</p>
-        <a href="https://www.mediafire.com/file/2oj0z9e835zxv9z/Derivative_Najawit_V3.2.zip/file" class="tombol-unduh">⬇ Unduh</a>
-    </div>
-    <div class="kartu">
-        <h4>Derivative_Najawit V4 (Last Update)</h4>
-        <p>Original: Derivative Shaders | Edited by Najib Nyawit</p>
-        <a href="https://www.mediafire.com/file/l13bkrd1qvozwkw/Derivative_Najawit_V4_Last_Update.zip/file" class="tombol-unduh">⬇ Unduh</a>
+    <!-- DISCLAIMER -->
+    <div class="disclaimer">
+        <div class="disclaimer-judul" onclick="toggleDisclaimer()">
+            <span data-id="judulDisclaimer">ℹ️ Disclaimer</span>
+            <span class="panah-disclaimer" id="panahDisclaimer">▼</span>
+        </div>
+        <div class="disclaimer-isi" id="isiDisclaimer" data-id="isiDisclaimer">
+            All shaders provided here are modified versions based on original works from BSL Shaders and Derivative Shaders developers.<br><br>
+            Use these files at your own risk. I am not responsible for any damage or issues caused by installation or usage.<br><br>
+            All rights belong to their respective creators. Thank you for respecting their hard work!
+        </div>
     </div>
 
-    <div class="catatan">
-        ⚠️ NOTE: If you see red page, copy link and open it in Chrome/Browser separately!
+    <!-- ✨ BAGIAN DUKUNG SAYA -->
+    <div class="dukung">
+        <h3 data-id="judulDukung">💖 Support My Work!</h3>
+        <p data-id="isiDukung">If you like my shaders, please support me so I can keep making more cool updates! Your support means a lot to me 😊</p>
+        <a href="https://sociabuzz.com/namakamu" target="_blank" class="link-dukung">☕ Support on Sociabuzz</a>
     </div>
 
-</body>
-</html>
+    <!-- FOLLOW ME -->
+    <div class="follow">
+        <h3 data-id="judulIkuti">✨ Follow Me For More!</h3>
+        <p data-id="isiIkuti">Don't miss the latest updates, previews, and new shader releases! Subscribe and support my work.</p>
+        <a href="https://www.tiktok.com/@namakamu" target="_blank" class="link-tiktok">🎵 Follow My TikTok</a>
+    </div>
+
+    <!-- PENCARIAN -->
+    <input type="text" class="cari" id="kotakCari" data-id="placeholderCari" placeholder="Search your shader...">
+
+    <!-- TOMBOL HALAMAN -->
+    <div class="nav-halaman">
+        <button class="tombol-halaman" id="btnPrev" onclick="gantiHalaman(-1)" disabled>‹ Prev</button>
+        <button class="tombol-halaman aktif" id="btnPage">Page 1</button>
+        <button class="tombol-halaman" id="btnNext" onclick="gantiHalaman(1)">Next ›</button>
+    </div>
+
+    <!-- DAFTAR SEMUA SHADER -->
+    <div class="daftar" id="daftarShader">
+        <!-- BSL -->
+        <div class="item" data-nama="BSL_Najawit V1" onclick="window.open('https://www.mediafire.com/file/bs9ugax86alwqnk/BSL_Najawit_V1.zip/file','_blank')">
+            <div class="item-kiri"><div class="logo-bsl">B</div><div><div class="item-nama">BSL_Najawit V1</div><div class="item-dev">Original: BSL Shaders</div><div class="item-edit">Edited by Najib Nyawit</div></div></div><span class="panah">›</span>
+        </div>
+        <div class="item" data-nama="BSL_Najawit V2" onclick="window.open('https://www.mediafire.com/file/imfb9oipqf1xzfy/BSL_Najawit_V2.zip/file','_blank')">
+            <div class="item-kiri"><div class="logo-bsl">B</div><div><div class="item-nama">BSL_Najawit V2</div><div class="item-dev">Original: BSL Shaders</div><div class="item-edit">Edited by Najib Nyawit</div></div></div><span class="panah">›</span>
+        </div>
+        <div class="item" data-nama="BSL_Najawit V3.0" onclick="window.open('https://www.mediafire.com/file/jzg6vobhd7b49we/BSL_Najawit_V3.0.zip/file','_blank')">
+            <div class="item-kiri"><div class="logo-bsl">B</div><div><div class="item-nama">BSL_Najawit V3.0</div><div class="item-dev">Original: BSL Shaders</div><div class="item-edit">Edited by Najib Nyawit</div></div></div><span class="panah">›</span>
+        </div>
+        <div class="item" data-nama="BSL_Najawit V3.1" onclick="window.open('https://www.mediafire.com/file/jseqz6ad34m0eei/BSL_Najawit_V3.1.zip/file','_blank')">
+            <div class="item-kiri"><div class="logo-bsl">B</div><div><div class="item-nama">BSL_Najawit V3.1</div><div class="item-dev">Original: BSL Shaders</div><div class="item-edit">Edited by Najib Nyawit</div></div></div><span class="panah">›</span>
+        </div>
+        <div class="item" data-nama="BSL_Najawit V3.2" onclick="window.open('https://www.mediafire.com/file/7y86r9f81n91one/BSL_Najawit_V3.2.zip/file','_blank')">
+            <div class="item-kiri"><div class="logo-bsl">B</div><div><div class="item-nama">BSL_Najawit V3.2</div><div class="item-dev">Original: BSL Shaders</div><div class="item-edit">Edited by Najib Nyawit</div></div></div><span class="panah">›</span>
+        </div>
+        <div class="item" data-nama="BSL_Najawit V4 Final" onclick="window.open('https://www.mediafire.com/file/nmzop5p9jqzel2v/BSL_Najawit_V4_Last_Update.zip/file','_blank')">
+            <div class="item-kiri"><div class="logo-bsl">B</div><div><div class="item-nama">BSL_Najawit V4 (Final)</div><div class="item-dev">Original: BSL Shaders</div><div class="item-edit">Edited by Najib Nyawit</div></div></div><span class="panah">›</span>
+        </div>
+
+        <!-- DERIVATIVE -->
+        <div class="item" data-nama="Derivative_Najawit V1" onclick="window.open('https://www.mediafire.com/file/a63lvpqgol2b9cf/Derivative_Najawit_V1.zip/file','_blank')">
+            <div class="item-kiri"><div class="logo-deriv">D</div><div><div class="item-nama">Derivative_Najawit V1</div><div class="item-dev">Original: Derivative Shaders</div><div class="item-edit">Edited by Najib Nyawit</div></div></div><span class="panah">›</span>
+        </div>
+        <div class="item" data-nama="Derivative_Najawit V2" onclick="window.open('https://www.mediafire.com/file/mdmh710efjf8qyt/Derivative_Najawit_V2.zip/file','_blank')">
+            <div class="item-kiri"><div class="logo-deriv">D</div><div><div class="item-nama">Derivative_Najawit V2</div><div class="item-dev">Original: Derivative Shaders</div><div class="item-edit">Edited by Najib Nyawit</div></div></div><span class="panah">›</span>
+        </div>
+        <div class="item" data-nama="Derivative_Najawit V3.0" onclick="window.open('https://www.mediafire.com/file/ik9dqwrxewy7qjd/Derivative_Najawit_V3.0.zip/file','_blank')">
+            <div class="item-kiri"><div class="logo-deriv">D</div><div><div class="item-nama">Derivative_Najawit V3.0</div><div class="item-dev">Original: Derivative Shaders</div><div class="item-edit">Edited by Najib Nyawit</div></div></div><span class="panah">›</span>
+        </div>
+        <div class="item" data-nama="Derivative_Najawit V3.1" onclick="window.open('https://www.mediafire.com/file/mjj3x03pmhcuze7/Derivative_Najawit V3.1.zip/file','_blank')">
+            <div class="item-kiri"><div class="logo-deriv">D</div><div><div class="item-nama">Derivative_Najawit V3.1</div><div class="item-dev">Original: Derivative Shaders</div><div class="item-edit">Edited by Najib Nyawit</div></div></div><span class="panah">›</span>
+        </div>
+        <div class="item" data-nama="Derivative_Najawit V3.2" onclick="window.open('https://www.mediafire.com/file/2oj0z9e835zxv9z/Derivative_Najawit_V3.2.zip/file','_blank')">
+            <div class="item-kiri"><div class="logo-deriv">D</div><div><div class="item-nama">Derivative_Najawit V3.2</div><div class="item-dev">Original: Derivative Shaders</div><div class="item-edit">Edited by Najib Nyawit</div></div></div><span class="panah">›</span>
+        </div>
+        <div class="item" data-nama="Derivative_Najawit V4 Final" onclick="window.open('https://www.mediafire.com/file/l13bkrd1qvozwkw/Derivative_Najawit_V4_Last_Update.zip/file','_blank')">
+            <div class="item-kiri"><div class="logo-deriv">D</div><div><div class="item-nama">Derivative_Najawit V4 (Final)</div><div class="item-dev">Original: Derivative Shaders</div><div class="item-edit">Edited by Najib Nyawit</div></div></div><span class="panah">›</span>
+        </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="info-halaman" id="infoHalaman" data-id="infoTotal">Total 12 shaders available ✨</div>
+    </div>
+
+    <!-- ✨ PUDAR BAWAH -->
+    <div class="pudar-bawah"></div>
+
+    <!-- MENU BAWAH -->
+    <div class="menu-bawah"><div class="menu-item">🎨 Shaders</div></div>
+
+    <!-- SCRIPT -->
+    <script>
+        // KAMUS BAHASA
+        const terjemahan = {
+            id: {
+                judulHalaman: "✨ Unduh Shader",
+                keteranganProfil: "Semua shader diedit oleh saya",
+                judulDisclaimer: "ℹ️ Penafian",
+                isiDisclaimer: "Semua shader yang disediakan di sini adalah versi modifikasi berdasarkan karya asli dari pengembang BSL Shaders dan Derivative Shaders.<br><br>Gunakan file ini atas risiko Anda sendiri. Saya tidak bertanggung jawab atas kerusakan atau masalah yang disebabkan oleh pemasangan atau penggunaan.<br><br>Seluruh hak cipta milik pencipta masing-masing. Terima kasih telah menghargai kerja keras mereka!",
+                judulDukung: "💖 Bantu Dukung Karya Saya!",
+                isiDukung: "Kal
